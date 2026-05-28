@@ -1,7 +1,12 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
 import Sidebar from "./components/layout/Sidebar";
-import Navbar from "./components/layout/Navbar";
 import Dashboard from "./pages/Dashboard";
+import Employees from "./pages/Employees";
+import Tasks from "./pages/Tasks";
+import Analytics from "./pages/Analytics";
+import Messages from "./pages/Messages";
+import Settings from "./pages/Settings";
 
 const App = () => {
   return (
@@ -9,9 +14,17 @@ const App = () => {
       <Sidebar />
 
       <div className="flex-1">
-        <Navbar />
-        <Dashboard />
-        
+     
+        <div>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/employees" element={<Employees />} />
+            <Route path="/tasks" element={<Tasks />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </div>
       </div>
     </div>
   );

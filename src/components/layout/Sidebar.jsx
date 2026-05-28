@@ -1,18 +1,16 @@
 import React from "react";
-import {
-  FiBarChart2,
-  FiBriefcase,
-  FiGrid,
-  FiLogOut,
-  FiMessageSquare,
-  FiSettings,
-  FiUsers,
-} from "react-icons/fi";
+import { NavLink } from "react-router-dom";
+import { FiBarChart2, FiBriefcase, FiGrid, FiLogOut, FiMessageSquare, FiSettings, FiUsers } from "react-icons/fi";
 
 const Sidebar = () => {
+  const linkClass = ({ isActive }) =>
+    `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+      isActive ? "bg-amber-500 text-white shadow-lg shadow-amber-500/20" : "text-slate-300 hover:bg-white/10 hover:text-white"
+    }`;
+
   return (
     // aside sidebar ke liye semantic tag hai, div se better readability milti hai
-    <aside className="flex min-h-screen w-64 flex-col border-r border-white/10 bg-[#111827] px-4 py-6 text-white">
+    <aside className="flex min-h-screen w-64 flex-col border-r border-white/10 bg-[#111827] px-6 py-6 text-white">
       {/* Logo / title section */}
       <div className="mb-8 px-2">
         <h1 className="text-xl font-bold tracking-wide">EmployeeHub</h1>
@@ -24,46 +22,46 @@ const Sidebar = () => {
         <ul className="space-y-2.5">
           {/* Active item ko amber background diya hai taaki current page clear dikhe */}
           <li>
-            <a href="#" className="flex items-center gap-3 rounded-lg bg-amber-500 px-3 py-2.5 text-sm font-medium text-white shadow-lg shadow-amber-500/20">
+            <NavLink className={linkClass} to="/">
               <FiGrid className="text-lg" />
               Dashboard
-            </a>
+            </NavLink>
           </li>
 
           {/* Baaki items hover par highlight honge */}
           <li>
-            <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-white">
+            <NavLink className={linkClass} to="/employees">
               <FiUsers className="text-lg" />
               Employees
-            </a>
+            </NavLink>
           </li>
 
           <li>
-            <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-white">
+            <NavLink className={linkClass} to="/tasks">
               <FiBriefcase className="text-lg" />
               Tasks
-            </a>
+            </NavLink>
           </li>
 
           <li>
-            <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-white">
+            <NavLink className={linkClass} to="/analytics">
               <FiBarChart2 className="text-lg" />
               Analytics
-            </a>
+            </NavLink>
           </li>
 
           <li>
-            <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-white">
+            <NavLink className={linkClass} to="/messages">
               <FiMessageSquare className="text-lg" />
               Messages
-            </a>
+            </NavLink>
           </li>
 
           <li>
-            <a href="#" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-white">
+            <NavLink className={linkClass} to="/settings">
               <FiSettings className="text-lg" />
               Settings
-            </a>
+            </NavLink>
           </li>
         </ul>
       </nav>
