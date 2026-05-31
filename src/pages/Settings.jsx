@@ -1,18 +1,21 @@
-import React from "react";
-import SettingsContainer from "../components/Settings/SettingsContainer";
+﻿import SettingsContainer from "../components/Settings/SettingsContainer";
 
 const Settings = () => {
   return (
-    <div className="flex-1 bg-[#0f172a] text-white">
-      {/* Header */}
-      <div className="p-10 border-b border-white/10">
-        <h1 className="text-4xl font-bold tracking-tight">Settings</h1>
+    <section className="space-y-4">
+      <div className="px-4 pt-4 md:px-6 md:pt-6">
+        <div className="rounded-xl border border-white/10 bg-[#111827] p-4">
+          <h3 className="text-lg font-semibold">Account Settings</h3>
+          <p className="text-sm text-slate-400">
+            Manage profile details, preferences, and notification behavior.
+          </p>
+        </div>
       </div>
 
-      {/* Main */}
       <SettingsContainer />
-    </div>
+    </section>
   );
 };
 
 export default Settings;
+

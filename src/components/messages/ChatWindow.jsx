@@ -1,42 +1,90 @@
-import React from "react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import MessageBubble from "./MessageBubble";
 
-const ChatWindow = () => {
-  const messages = [
-    {
-      id: 1,
-      text: "Hello 👋",
-      sender: "other",
-    },
+const ChatWindow = ({ contact, messages, onSend, isTyping }) => {
+  const [draft, setDraft] = useState("");
+  const scrollerRef = useRef(null);
 
-    {
-      id: 2,
-      text: "How are you?",
-      sender: "other",
-    },
+  const submitMessage = (event) => {
+    event.preventDefault();
+    onSend(draft);
+    setDraft("");
+  };
 
-    {
-      id: 3,
-      text: "I'm doing great 😄",
-      sender: "me",
-    },
-  ];
+  useEffect(() => {
+    if (!scrollerRef.current) return;
+    scrollerRef.current.scrollTo({
+      top: scrollerRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [messages, isTyping]);
 
   return (
-    <div className="flex flex-col justify-between p-6">
-      {/* Messages */}
-      <div className="space-y-4">
-        {messages.map((message) => (
-          <MessageBubble key={message.id} {...message} />
-        ))}
+    <div className="flex min-h-[380px] flex-col p-4 sm:p-5">
+      <div className="mb-4 flex items-center justify-between rounded-xl border border-white/10 bg-[#1e293b] px-4 py-3">
+        <div>
+          <p className="text-sm font-semibold">{contact?.name}</p>
+          <p className="text-xs text-slate-400">{contact?.role}</p>
+        </div>
+        <span
+          className={`rounded-full px-2 py-1 text-xs ${
+            contact?.online ? "bg-emerald-500/15 text-emerald-400" : "bg-slate-700 text-slate-300"
+          }`}
+        >
+          {contact?.online ? "Online" : "Offline"}
+        </span>
       </div>
 
-      {/* Input */}
-      <div className="flex items-center gap-4 mt-6">
-        <input type="text" placeholder="Type a message..." className="flex-1 bg-[#1e293b] border border-white/10 px-5 py-4 rounded-2xl outline-none" />
+      <div
+        ref={scrollerRef}
+        className="flex-1 space-y-3 overflow-y-auto rounded-xl border border-white/10 bg-[#111827] p-4"
+      >
+        <AnimatePresence>
+          {messages.map((message) => (
+            <motion.div
+              key={message.id}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18 }}
+            >
+              <MessageBubble {...message} />
+            </motion.div>
+          ))}
 
-        <button className="bg-amber-500 hover:bg-amber-600 transition-all px-6 py-4 rounded-2xl font-medium">Send</button>
+          {isTyping ? (
+            <motion.div
+              key="typing-indicator"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              className="inline-flex items-center gap-1 rounded-2xl bg-[#1e293b] px-4 py-3"
+            >
+              <span className="h-2 w-2 animate-pulse rounded-full bg-slate-300" />
+              <span className="h-2 w-2 animate-pulse rounded-full bg-slate-300 [animation-delay:0.12s]" />
+              <span className="h-2 w-2 animate-pulse rounded-full bg-slate-300 [animation-delay:0.24s]" />
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </div>
+
+      <form className="mt-4 flex items-center gap-3" onSubmit={submitMessage}>
+        <input
+          type="text"
+          placeholder="Type a message..."
+          className="flex-1 rounded-xl border border-white/10 bg-[#1e293b] px-4 py-3 text-sm outline-none"
+          value={draft}
+          onChange={(event) => setDraft(event.target.value)}
+        />
+
+        <button
+          type="submit"
+          className="rounded-xl bg-amber-500 px-4 py-3 text-sm font-medium text-white hover:bg-amber-600"
+        >
+          Send
+        </button>
+      </form>
     </div>
   );
 };

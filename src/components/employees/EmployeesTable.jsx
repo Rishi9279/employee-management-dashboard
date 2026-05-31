@@ -1,66 +1,67 @@
-import React from "react";
+﻿import { useState } from "react";
+import { motion } from "framer-motion";
 import EmployeesRow from "./EmployeesRow";
 
+const EmployeesTable = ({ employees, onUpdateEmployee, onDeleteEmployee }) => {
+  const [editingId, setEditingId] = useState(null);
+  const [draft, setDraft] = useState(null);
 
-const employees = [
-  {
-    id: 1,
-    name: "Rishi Raj",
-    role: "Frontend Developer",
-    department: "Engineering",
-    status: "Active",
-    email: "rishi@gmail.com",
-  },
+  const startEdit = (employee) => {
+    setEditingId(employee.id);
+    setDraft(employee);
+  };
 
-  {
-    id: 2,
-    name: "Aman Kumar",
-    role: "UI Designer",
-    department: "Design",
-    status: "Active",
-    email: "aman@gmail.com",
-  },
+  const cancelEdit = () => {
+    setEditingId(null);
+    setDraft(null);
+  };
 
-  {
-    id: 3,
-    name: "Rahul Singh",
-    role: "Backend Developer",
-    department: "Engineering",
-    status: "Inactive",
-    email: "rahul@gmail.com",
-  },
+  const saveEdit = () => {
+    if (!draft) return;
+    onUpdateEmployee(editingId, draft);
+    cancelEdit();
+  };
 
-  {
-    id: 4,
-    name: "Priya Sharma",
-    role: "HR Manager",
-    department: "HR",
-    status: "Active",
-    email: "priya@gmail.com",
-  },
-];
-
-const EmployeesTable = () => {
   return (
-    <div className="bg-[#1e293b] border border-white/10 rounded-2xl p-5 m-3">
-      {/* Heading Row */}
-      <div className="grid grid-cols-6 text-gray-400 border-b border-white/10 pb-4 font-medium">
-        <div>Name</div>
-        <div>Role</div>
-        <div>Department</div>
-        <div>Status</div>
-        <div>Email</div>
-        <div className="text-center">Actions</div>
+    <motion.div
+      className="rounded-xl border border-white/10 bg-[#111827] p-3 md:p-4"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.24 }}
+    >
+      <div className="hidden grid-cols-6 border-b border-white/10 pb-3 text-sm font-medium text-slate-400 md:grid">
+        <span>Name</span>
+        <span>Role</span>
+        <span>Department</span>
+        <span>Status</span>
+        <span>Email</span>
+        <span className="text-center">Actions</span>
       </div>
 
-      {/* Employee Rows */}
-      <div className="mt-2">
+      <div className="mt-1 space-y-2">
         {employees.map((employee) => (
-          <EmployeesRow key={employee.id} {...employee} />
+          <EmployeesRow
+            key={employee.id}
+            employee={employee}
+            editingId={editingId}
+            draft={draft}
+            setDraft={setDraft}
+            onEdit={startEdit}
+            onCancel={cancelEdit}
+            onSave={saveEdit}
+            onDelete={onDeleteEmployee}
+          />
         ))}
+
+        {employees.length === 0 ? (
+          <div className="rounded-lg border border-dashed border-white/15 px-4 py-6 text-center text-sm text-slate-400">
+            No employees found for this filter.
+          </div>
+        ) : null}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 export default EmployeesTable;
+

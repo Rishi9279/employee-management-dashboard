@@ -1,18 +1,19 @@
-import React from "react";
-import MessagesContainer from "../components/messages/MessagesContainer";
+﻿import MessagesContainer from "../components/messages/MessagesContainer";
 
-const Messages = () => {
+const Messages = ({ globalSearch = "" }) => {
   return (
-    <div className="flex-1 bg-[#0f172a] text-white">
-      {/* Header */}
-      <div className="p-10 border-b border-white/10">
-        <h1 className="text-4xl font-bold tracking-tight">Messages</h1>
+    <section className="space-y-4 p-4 md:p-6">
+      <div className="rounded-xl border border-white/10 bg-[#111827] p-4">
+        <h3 className="text-lg font-semibold">Team Messages</h3>
+        <p className="text-sm text-slate-400">
+          Select a contact and continue the conversation.
+        </p>
       </div>
 
-      {/* Main */}
-      <MessagesContainer />
-    </div>
+      <MessagesContainer globalSearch={globalSearch} />
+    </section>
   );
 };
 
 export default Messages;
+

@@ -1,37 +1,26 @@
-import React from "react";
+﻿import { motion } from "framer-motion";
 
-const AnalyticsStats = () => {
-  const stats = [
-    {
-      id: 1,
-      title: "Revenue",
-      value: "$24,500",
-    },
-
-    {
-      id: 2,
-      title: "Users",
-      value: "1,245",
-    },
-
-    {
-      id: 3,
-      title: "Growth",
-      value: "+18%",
-    },
-  ];
-
+const AnalyticsStats = ({ stats = [] }) => {
   return (
-    <div className="grid grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
       {stats.map((item) => (
-        <div key={item.id} className="bg-[#1e293b] border border-white/10 rounded-3xl p-6">
-          <p className="text-gray-400 mb-3">{item.title}</p>
-
-          <h2 className="text-3xl font-bold">{item.value}</h2>
-        </div>
+        <motion.div
+          key={item.id}
+          className="rounded-2xl border border-white/10 bg-[#1e293b] p-5"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.22 }}
+        >
+          <p className="text-sm text-slate-400">{item.title}</p>
+          <h2 className="mt-2 text-2xl font-bold">{item.value}</h2>
+          <span className="mt-3 inline-block rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-medium text-emerald-400">
+            {item.delta}
+          </span>
+        </motion.div>
       ))}
     </div>
   );
 };
 
 export default AnalyticsStats;
+

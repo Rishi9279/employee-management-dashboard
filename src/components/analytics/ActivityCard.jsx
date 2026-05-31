@@ -1,15 +1,23 @@
-import React from "react";
+﻿import { motion } from "framer-motion";
 
 const ActivityCard = ({ title, value, growth }) => {
   return (
-    <div className="bg-[#1e293b] border border-white/10 rounded-3xl p-6">
-      <p className="text-gray-400 mb-3">{title}</p>
+    <motion.div
+      className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-[#1e293b] p-5"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.22 }}
+    >
+      <p className="mb-3 text-gray-400">{title}</p>
 
-      <h2 className="text-3xl font-bold mb-4">{value}</h2>
+      <h2 className="mb-4 text-2xl font-bold">{value}</h2>
 
-      <span className="bg-green-500/20 text-green-400 px-4 py-1.5 rounded-full text-sm font-medium">{growth}</span>
-    </div>
+      <span className="rounded-full bg-emerald-500/20 px-4 py-1.5 text-sm font-medium text-emerald-400">
+        {growth}
+      </span>
+    </motion.div>
   );
 };
 
 export default ActivityCard;
+
